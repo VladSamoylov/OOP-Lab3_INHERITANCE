@@ -207,7 +207,7 @@ LibraryUser::LibraryUser(const LibraryUser& u) : Human (u) {
 
 	if (u.books) {
 		this->books = new Book * [u.n_books];
-		for (int i = 0; i < n_books; i++) {
+		for (int i = 0; i < static_cast<int>(n_books); i++) {
 			this->books[i] = new Book(*(u.books[i]));
 		}
 	}
@@ -292,12 +292,12 @@ void LibraryUser::AddBook(const string& title, const string& author, const chron
 
 	this->n_books++;
 	Book** new_books = new Book * [this->n_books];
-	for (int i = 0; i < this->n_books - 1; i++) {
+	for (int i = 0; i < static_cast<int>(this->n_books) - 1; i++) {
 		new_books[i] = new Book{ this->books[i]->title, this->books[i]->author, this->books[i]->year };
 	}
 	new_books[this->n_books - 1] = new Book{ title, author, year };
 	if (this->books) {
-		for (int i = 0; i < n_books - 1; i++) {
+		for (int i = 0; i < static_cast<int>(this->n_books) - 1; i++) {
 			delete this->books[i];
 		}
 		delete[] this->books;
@@ -316,7 +316,7 @@ void LibraryUser::ShowInfo() {
 	else cout << ANSI_COLOR_RED << "Inactive" << ANSI_COLOR_RESET << endl;
 	cout << "Payment monthly: " << ANSI_COLOR_GREEN << this->GetMontlyPayment() << ANSI_COLOR_RESET << " Payment per year: " << ANSI_COLOR_GREEN << this->YearPaymentCalculation() << ANSI_COLOR_RESET << " (sale: " << ANSI_COLOR_GREEN << this->DiscountCalculation() << "%" << ANSI_COLOR_RESET << ')' << endl;
 	cout << "_________Books list_________(" << ANSI_COLOR_BLUE << this->n_books << ANSI_COLOR_RESET << ')' << endl;
-	for (int i = 0; i < this->n_books; i++) {
+	for (int i = 0; i < static_cast<int>(this->n_books); i++) {
 		cout << "The " << setw(20) << left << this->books[i]->title << " by " << setw(15) << left << this->books[i]->author << " Year: " << setw(10) << left << this->books[i]->year << endl;
 	}
 }
@@ -326,7 +326,7 @@ void LibraryUser::ShowInfo() {
 */
 LibraryUser::~LibraryUser() {
 
-	for (int i = 0; i < n_books; i++) {
+	for (int i = 0; i < static_cast<int>(this->n_books); i++) {
 		delete this->books[i];
 	}
 	delete[] this->books;
